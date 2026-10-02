@@ -9,14 +9,11 @@ import {
   Menu,
   MessageCircle,
   Moon,
-  Package,
   Search,
   ShoppingBag,
   Sparkles,
-  Star,
   Sun,
   Truck,
-  Upload,
   Users,
   X,
 } from 'lucide-react'
@@ -370,9 +367,9 @@ function App() {
     }
   }
 
-  function scrollToHowItWorks() {
+  function scrollToSection(id: string) {
     document
-      .getElementById('how-it-works')
+      .getElementById(id)
       ?.scrollIntoView({
         behavior: 'smooth',
       })
@@ -381,269 +378,242 @@ function App() {
   }
 
   return (
-    <div className={`min-h-screen overflow-x-hidden ${isDark ? 'bg-[#050505] text-white' : 'bg-[#cac5c5] text-gray-900'}`}>
-      {/* Background */}
-      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute left-[-15%] top-[-15%] h-[500px] w-[500px] rounded-full bg-emerald-500/10 blur-[120px]" />
-
-        <div className="absolute right-[-10%] top-[15%] h-[450px] w-[450px] rounded-full bg-yellow-500/10 blur-[130px]" />
-
-        <div className="absolute bottom-[-10%] left-[25%] h-[400px] w-[400px] rounded-full bg-orange-500/10 blur-[120px]" />
-      </div>
-
+    <div className="min-h-screen overflow-x-hidden bg-canvas text-ink transition-colors duration-300">
       {/* Navigation */}
-      <header className="fixed left-0 right-0 top-0 z-40">
-        <div className="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center justify-between rounded-2xl border border-white/10 dark:border-white/10 bg-black/50 dark:bg-black/50 px-4 py-3 backdrop-blur-xl sm:px-6">
+      <header className="fixed left-0 right-0 top-0 z-40 border-b border-hairline/60 bg-canvas/75 backdrop-blur-xl backdrop-saturate-150">
+        <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 sm:px-6">
+          <button
+            onClick={() => window.scrollTo({
+              top: 0,
+              behavior: 'smooth',
+            })}
+            className="flex items-center gap-2"
+            aria-label="QuickCart home"
+          >
+            <div className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-ink text-canvas">
+              <ShoppingBag size={16} />
+            </div>
+
+            <span className="text-[17px] font-semibold tracking-tight">
+              QuickCart
+            </span>
+
+            <span className="hidden text-[13px] text-ink-tertiary sm:inline">
+              Zambia
+            </span>
+          </button>
+
+          <div className="hidden items-center gap-7 md:flex">
             <button
-              onClick={() => window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-              })}
-              className="flex items-center gap-2"
+              onClick={() => scrollToSection('why-quickcart')}
+              className="text-[13px] text-ink-secondary transition hover:text-ink"
             >
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-black">
-                <ShoppingBag size={19} />
-              </div>
-
-              <span className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
-                QuickCart
-              </span>
-
-              <span className="hidden rounded-full border border-white/10 dark:border-white/10 bg-white/5 dark:bg-white/5 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-white/50 dark:text-white/50 sm:inline">
-                Zambia
-              </span>
+              Why QuickCart
             </button>
 
-            <div className="hidden items-center gap-8 md:flex">
-              <button
-                onClick={scrollToHowItWorks}
-                className="text-sm text-gray-600 dark:text-white/60 transition hover:text-gray-900 dark:hover:text-white"
-              >
-                How it works
-              </button>
+            <button
+              onClick={() => scrollToSection('how-it-works')}
+              className="text-[13px] text-ink-secondary transition hover:text-ink"
+            >
+              How it works
+            </button>
 
+            <button
+              onClick={() => setIsDark(!isDark)}
+              className="rounded-full p-2 text-ink-secondary transition hover:bg-surface-muted hover:text-ink"
+              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {isDark ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+
+            <button
+              onClick={openSignup}
+              className="rounded-full bg-accent px-4 py-1.5 text-[13px] font-medium text-white transition hover:bg-accent-hover"
+            >
+              Join early access
+            </button>
+          </div>
+
+          <button
+            onClick={() =>
+              setIsMobileMenuOpen(
+                (current) => !current
+              )
+            }
+            className="rounded-full p-2 text-ink md:hidden"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? (
+              <X size={20} />
+            ) : (
+              <Menu size={20} />
+            )}
+          </button>
+        </nav>
+
+        {isMobileMenuOpen && (
+          <div className="border-t border-hairline/60 bg-canvas/95 px-5 pb-5 pt-2 backdrop-blur-xl md:hidden">
+            <div className="flex flex-col">
               <button
-                onClick={() =>
-                  document
-                    .getElementById('why-quickcart')
-                    ?.scrollIntoView({
-                      behavior: 'smooth',
-                    })
-                }
-                className="text-sm text-gray-600 dark:text-white/60 transition hover:text-gray-900 dark:hover:text-white"
+                onClick={() => scrollToSection('why-quickcart')}
+                className="border-b border-hairline/60 py-4 text-left text-[17px] text-ink"
               >
                 Why QuickCart
               </button>
 
               <button
-                onClick={() => setIsDark(!isDark)}
-                className="rounded-xl border border-gray-300 dark:border-white/10 p-2 text-gray-600 dark:text-white/60 transition hover:text-gray-900 dark:hover:text-white"
+                onClick={() => scrollToSection('how-it-works')}
+                className="border-b border-hairline/60 py-4 text-left text-[17px] text-ink"
               >
-                {isDark ? <Sun size={18} /> : <Moon size={18} />}
+                How it works
               </button>
 
               <button
-                onClick={openSignup}
-                className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:scale-[1.02]"
+                onClick={() => setIsDark(!isDark)}
+                className="flex items-center gap-3 py-4 text-left text-[17px] text-ink"
+              >
+                {isDark ? <Sun size={18} /> : <Moon size={18} />}
+                {isDark ? 'Light mode' : 'Dark mode'}
+              </button>
+
+              <button
+                onClick={() => {
+                  openSignup()
+                  setIsMobileMenuOpen(false)
+                }}
+                className="mt-2 rounded-full bg-accent px-4 py-3 text-[15px] font-medium text-white"
               >
                 Join early access
               </button>
             </div>
-
-            <button
-              onClick={() =>
-                setIsMobileMenuOpen(
-                  (current) => !current
-                )
-              }
-              className="rounded-xl border border-gray-300 dark:border-white/10 p-2 md:hidden"
-            >
-              {isMobileMenuOpen ? (
-                <X size={20} />
-              ) : (
-                <Menu size={20} />
-              )}
-            </button>
-          </nav>
-
-          {isMobileMenuOpen && (
-            <div className="mt-2 rounded-2xl border border-gray-300 dark:border-white/10 bg-white/90 dark:bg-black/80 p-4 backdrop-blur-xl md:hidden">
-              <div className="flex flex-col gap-2">
-                <button
-                  onClick={scrollToHowItWorks}
-                  className="rounded-xl px-4 py-3 text-left text-sm text-gray-700 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/5"
-                >
-                  How it works
-                </button>
-
-                <button
-                  onClick={() => {
-                    document
-                      .getElementById('why-quickcart')
-                      ?.scrollIntoView({
-                        behavior: 'smooth',
-                      })
-
-                    setIsMobileMenuOpen(false)
-                  }}
-                  className="rounded-xl px-4 py-3 text-left text-sm text-gray-700 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/5"
-                >
-                  Why QuickCart
-                </button>
-
-                <button
-                  onClick={() => setIsDark(!isDark)}
-                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-left text-sm text-gray-700 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/5"
-                >
-                  {isDark ? <Sun size={18} /> : <Moon size={18} />}
-                  {isDark ? 'Light mode' : 'Dark mode'}
-                </button>
-
-                <button
-                  onClick={() => {
-                    openSignup()
-                    setIsMobileMenuOpen(false)
-                  }}
-                  className="mt-2 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-black"
-                >
-                  Join early access
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </header>
 
-      {/* Hero */}
       <main>
-        <section className="relative px-4 pb-24 pt-36 sm:px-6 lg:px-8 lg:pb-32 lg:pt-44">
-          <div className="mx-auto max-w-7xl">
+        {/* Hero */}
+        <section className="px-5 pb-20 pt-32 sm:px-6 lg:pb-28 lg:pt-40">
+          <div className="mx-auto max-w-6xl">
             <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_.95fr]">
               <div>
-                <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-white/10 bg-gray-100 dark:bg-white/5 px-4 py-2 text-xs text-gray-600 dark:text-white/65 backdrop-blur">
-                  <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
+                <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-accent-soft px-3.5 py-1.5 text-[13px] font-medium text-accent">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
                   Preparing to launch in Zambia
                 </div>
 
-                <h1 className="max-w-4xl text-5xl font-semibold leading-[0.95] tracking-[-0.055em] sm:text-7xl lg:text-8xl text-gray-900 dark:text-white">
+                <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.035em] sm:text-7xl lg:text-[5.25rem]">
                   You need it.
                   <br />
-
-                  <span className="bg-gradient-to-r from-gray-900 via-gray-900 to-gray-900/40 dark:from-white dark:via-white dark:to-white/40 bg-clip-text text-transparent">
+                  <span className="text-ink-tertiary">
                     We get it.
                   </span>
                 </h1>
 
-                <p className="mt-7 max-w-xl text-lg leading-8 text-gray-600 dark:text-white/55 sm:text-xl">
+                <p className="mt-6 max-w-xl text-lg leading-8 text-ink-secondary sm:text-xl">
                   Too busy to shop? Too far from the
                   market? Send us a picture, a shopping
                   list, or simply tell us what you need.
                   We'll find it, buy it, and get it to you.
                 </p>
 
-                <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
                   <button
                     onClick={openSignup}
-                    className="group flex items-center justify-center gap-3 rounded-full bg-white px-7 py-4 font-semibold text-black transition hover:scale-[1.02]"
+                    className="group flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-[17px] font-medium text-white transition hover:bg-accent-hover"
                   >
                     Join early access
-
                     <ArrowRight
                       size={18}
-                      className="transition-transform group-hover:translate-x-1"
+                      className="transition-transform group-hover:translate-x-0.5"
                     />
                   </button>
 
                   <button
-                    onClick={scrollToHowItWorks}
-                    className="rounded-full border border-gray-300 dark:border-white/10 bg-gray-100 dark:bg-white/5 px-7 py-4 font-medium text-gray-700 dark:text-white/80 backdrop-blur transition hover:bg-gray-200 dark:hover:bg-white/10"
+                    onClick={() => scrollToSection('how-it-works')}
+                    className="group flex items-center justify-center gap-1 px-4 py-3.5 text-[17px] text-accent transition hover:underline"
                   >
                     See how it works
+                    <ChevronDown
+                      size={18}
+                      className="-rotate-90"
+                    />
                   </button>
                 </div>
 
-                <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-sm text-gray-500 dark:text-white/40">
+                <div className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-[15px] text-ink-secondary">
                   <div className="flex items-center gap-2">
-                    <Check size={16} className="text-emerald-400" />
+                    <Check size={16} className="text-accent" />
                     Shop for you
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <Check size={16} className="text-emerald-400" />
+                    <Check size={16} className="text-accent" />
                     Real people
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <Check size={16} className="text-emerald-400" />
+                    <Check size={16} className="text-accent" />
                     Doorstep delivery
                   </div>
                 </div>
               </div>
 
               {/* Hero visual */}
-              <div className="relative mx-auto w-full max-w-xl">
-                <div className="absolute -inset-8 rounded-[3rem] bg-gradient-to-br from-emerald-400/10 via-transparent to-orange-400/10 blur-3xl" />
-
-                <div className="relative overflow-hidden rounded-[2rem] border border-gray-300 dark:border-white/10 bg-white/80 dark:bg-white/[0.055] p-3 shadow-2xl backdrop-blur-2xl">
-                  <div className="rounded-[1.5rem] border border-gray-300 dark:border-white/10 bg-gray-100 dark:bg-[#0b0b0b] p-5 sm:p-7">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-xs uppercase tracking-[0.2em] text-gray-500 dark:text-white/35">
-                          QuickCart
-                        </p>
-
-                        <p className="mt-1 font-medium text-gray-900 dark:text-white">
-                          Find it for me
-                        </p>
-                      </div>
-
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-200 dark:bg-white/5">
-                        <Sparkles
-                          size={18}
-                          className="text-gray-600 dark:text-white/70"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="mt-6 rounded-2xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50 dark:bg-white/[0.025] p-8 text-center">
-                      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-200 dark:bg-white/10">
-                        <Camera size={28} />
-                      </div>
-
-                      <h3 className="mt-5 text-xl font-medium text-gray-900 dark:text-white">
-                        Show us what you want
-                      </h3>
-
-                      <p className="mx-auto mt-2 max-w-xs text-sm leading-6 text-gray-500 dark:text-white/40">
-                        Upload a picture and let a QuickCart
-                        shopper find it for you.
+              <div className="relative mx-auto w-full max-w-md">
+                <div className="rounded-[2.25rem] bg-surface p-6 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.18)] ring-1 ring-hairline/60 dark:shadow-none sm:p-8">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-[12px] font-medium uppercase tracking-[0.12em] text-ink-tertiary">
+                        QuickCart
                       </p>
 
-                      <button
-                        onClick={openSignup}
-                        className="mt-6 rounded-full bg-gray-200 dark:bg-white/10 px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-white transition hover:bg-gray-300 dark:hover:bg-white/15"
-                      >
-                        Try it when we launch
-                      </button>
+                      <p className="mt-0.5 text-[17px] font-semibold">
+                        Find it for me
+                      </p>
                     </div>
 
-                    <div className="mt-4 grid grid-cols-3 gap-3">
-                      <MiniFeature
-                        icon={<Search size={17} />}
-                        label="Find"
-                      />
-
-                      <MiniFeature
-                        icon={<ShoppingBag size={17} />}
-                        label="Buy"
-                      />
-
-                      <MiniFeature
-                        icon={<Truck size={17} />}
-                        label="Deliver"
-                      />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-soft text-accent">
+                      <Sparkles size={18} />
                     </div>
+                  </div>
+
+                  <div className="mt-6 rounded-3xl bg-surface-muted p-8 text-center">
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-[1.25rem] bg-surface text-accent shadow-sm ring-1 ring-hairline/60">
+                      <Camera size={28} />
+                    </div>
+
+                    <h3 className="mt-5 text-xl font-semibold tracking-tight">
+                      Show us what you want
+                    </h3>
+
+                    <p className="mx-auto mt-2 max-w-xs text-[15px] leading-6 text-ink-secondary">
+                      Upload a picture and let a QuickCart
+                      shopper find it for you.
+                    </p>
+
+                    <button
+                      onClick={openSignup}
+                      className="mt-6 rounded-full bg-ink px-5 py-2.5 text-[14px] font-medium text-canvas transition hover:opacity-85"
+                    >
+                      Try it when we launch
+                    </button>
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-3 gap-3">
+                    <MiniFeature
+                      icon={<Search size={18} />}
+                      label="Find"
+                    />
+
+                    <MiniFeature
+                      icon={<ShoppingBag size={18} />}
+                      label="Buy"
+                    />
+
+                    <MiniFeature
+                      icon={<Truck size={18} />}
+                      label="Deliver"
+                    />
                   </div>
                 </div>
               </div>
@@ -652,75 +622,71 @@ function App() {
         </section>
 
         {/* Launch progress */}
-        <section className="px-4 py-10 sm:px-6 lg:px-8">
+        <section className="px-5 py-10 sm:px-6">
           <div className="mx-auto max-w-5xl">
-            <div className="relative overflow-hidden rounded-[2rem] border border-gray-300 dark:border-white/10 bg-white/80 dark:bg-white/[0.045] p-6 backdrop-blur-xl sm:p-10">
-              <div className="absolute right-[-10%] top-[-100%] h-[300px] w-[300px] rounded-full bg-emerald-400/10 blur-[100px]" />
-
-              <div className="relative">
-                <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-                  <div>
-                    <div className="mb-3 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-emerald-300/70">
-                      <Users size={14} />
-                      Lusaka launch
-                    </div>
-
-                    <h2 className="text-2xl font-semibold tracking-tight sm:text-4xl text-gray-900 dark:text-white">
-                      Help us bring QuickCart to Lusaka.
-                    </h2>
-
-                    <p className="mt-2 max-w-xl text-sm leading-6 text-gray-600 dark:text-white/45">
-                      Every early user brings us one step
-                      closer to launch.
-                    </p>
+            <div className="rounded-[2rem] bg-surface p-7 ring-1 ring-hairline/60 sm:p-12">
+              <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+                <div>
+                  <div className="mb-3 flex items-center gap-2 text-[13px] font-semibold text-accent">
+                    <Users size={15} />
+                    Lusaka launch
                   </div>
 
-                  <div className="sm:text-right">
-                    <div className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                      {isLoadingStats ? '—' : signupCount}
-                      <span className="text-gray-400 dark:text-white/25">
-                        {' '}
-                        / {launchTarget}
-                      </span>
-                    </div>
+                  <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                    Help us bring QuickCart to Lusaka.
+                  </h2>
 
-                    <p className="mt-1 text-xs text-gray-500 dark:text-white/35">
-                      early users
-                    </p>
-                  </div>
+                  <p className="mt-2 max-w-xl text-[15px] leading-6 text-ink-secondary">
+                    Every early user brings us one step
+                    closer to launch.
+                  </p>
                 </div>
 
-                <div className="mt-8">
-                  <div className="h-3 overflow-hidden rounded-full bg-gray-200 dark:bg-white/10">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-emerald-300 via-green-400 to-yellow-300 transition-all duration-700"
-                      style={{
-                        width: `${progress}%`,
-                      }}
-                    />
-                  </div>
-
-                  <div className="mt-3 flex justify-between text-xs text-gray-500 dark:text-white/35">
-                    <span>
-                      {progress}% complete
-                    </span>
-
-                    <span>
-                      {remaining > 0
-                        ? `${remaining} spots remaining`
-                        : 'Launch target reached 🎉'}
+                <div className="sm:text-right">
+                  <div className="text-5xl font-semibold tracking-tight">
+                    {isLoadingStats ? '—' : signupCount}
+                    <span className="text-ink-tertiary">
+                      {' '}
+                      / {launchTarget}
                     </span>
                   </div>
+
+                  <p className="mt-1 text-[13px] text-ink-tertiary">
+                    early users
+                  </p>
                 </div>
-
-                <button
-                  onClick={openSignup}
-                  className="mt-7 flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-white transition hover:text-emerald-600 dark:hover:text-emerald-300"
-                >
-                  Join the movement
-                  <ArrowRight size={16} />
-                </button>
               </div>
+
+              <div className="mt-8">
+                <div className="h-2 overflow-hidden rounded-full bg-surface-muted">
+                  <div
+                    className="h-full rounded-full bg-accent transition-all duration-700"
+                    style={{
+                      width: `${progress}%`,
+                    }}
+                  />
+                </div>
+
+                <div className="mt-3 flex justify-between text-[13px] text-ink-secondary">
+                  <span>
+                    {progress}% complete
+                  </span>
+
+                  <span>
+                    {remaining > 0
+                      ? `${remaining} spots remaining`
+                      : 'Launch target reached 🎉'}
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={openSignup}
+                className="mt-7 flex items-center gap-1 text-[17px] text-accent transition hover:underline"
+              >
+                Join the movement
+                <ArrowRight size={16} />
+              </button>
             </div>
           </div>
         </section>
@@ -728,41 +694,41 @@ function App() {
         {/* Why */}
         <section
           id="why-quickcart"
-          className="px-4 py-28 sm:px-6 lg:px-8"
+          className="scroll-mt-14 px-5 py-28 sm:px-6"
         >
-          <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-6xl">
             <div className="max-w-2xl">
-              <p className="text-xs font-medium uppercase tracking-[0.25em] text-gray-500 dark:text-white/35">
+              <p className="text-[17px] font-semibold text-accent">
                 Built around real life
               </p>
 
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-6xl text-gray-900 dark:text-white">
+              <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-6xl">
                 Shopping shouldn't
                 <br />
                 steal your day.
               </h2>
 
-              <p className="mt-5 text-lg leading-8 text-gray-600 dark:text-white/45">
+              <p className="mt-5 text-xl leading-8 text-ink-secondary">
                 QuickCart connects you with people who can
                 physically go and get what you need.
               </p>
             </div>
 
-            <div className="mt-14 grid gap-4 md:grid-cols-3">
+            <div className="mt-14 grid gap-5 md:grid-cols-3">
               <ProblemCard
-                icon={<Clock3 />}
+                icon={<Clock3 size={22} />}
                 title="Too busy?"
                 text="Keep working, studying, or spending time with your family while someone handles the shopping."
               />
 
               <ProblemCard
-                icon={<MapPin />}
+                icon={<MapPin size={22} />}
                 title="Too far?"
                 text="Whether you're on campus, at work, or far from the market, your shopper can go for you."
               />
 
               <ProblemCard
-                icon={<Search />}
+                icon={<Search size={22} />}
                 title="Can't find it online?"
                 text="Show us a picture or describe what you need. Your shopper can search physical stores and markets."
               />
@@ -773,46 +739,46 @@ function App() {
         {/* How it works */}
         <section
           id="how-it-works"
-          className="border-y border-gray-200 dark:border-white/5 bg-gray-50 dark:bg-white/[0.018] px-4 py-28 sm:px-6 lg:px-8"
+          className="scroll-mt-14 bg-canvas-alt px-5 py-28 sm:px-6"
         >
-          <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-6xl">
             <div className="text-center">
-              <p className="text-xs font-medium uppercase tracking-[0.25em] text-gray-500 dark:text-white/35">
+              <p className="text-[17px] font-semibold text-accent">
                 Simple by design
               </p>
 
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-6xl text-gray-900 dark:text-white">
+              <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-6xl">
                 You ask.
                 <br />
                 We handle the rest.
               </h2>
             </div>
 
-            <div className="mt-16 grid gap-5 md:grid-cols-4">
+            <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               <Step
                 number="01"
-                icon={<Camera />}
+                icon={<Camera size={20} />}
                 title="Show us"
                 text="Send a picture, shopping list, or tell us what you need."
               />
 
               <Step
                 number="02"
-                icon={<Users />}
+                icon={<Users size={20} />}
                 title="We match"
                 text="A QuickCart shopper accepts your request."
               />
 
               <Step
                 number="03"
-                icon={<ShoppingBag />}
+                icon={<ShoppingBag size={20} />}
                 title="We shop"
                 text="Your shopper finds and purchases the items."
               />
 
               <Step
                 number="04"
-                icon={<Truck />}
+                icon={<Truck size={20} />}
                 title="We deliver"
                 text="Your shopping arrives at your chosen location."
               />
@@ -821,22 +787,22 @@ function App() {
         </section>
 
         {/* Categories */}
-        <section className="px-4 py-28 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
+        <section className="px-5 py-28 sm:px-6">
+          <div className="mx-auto max-w-6xl">
             <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
               <div>
-                <p className="text-xs font-medium uppercase tracking-[0.25em] text-gray-500 dark:text-white/35">
+                <p className="text-[17px] font-semibold text-accent">
                   Whatever you need
                 </p>
 
-                <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl text-gray-900 dark:text-white">
+                <h2 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
                   One place.
                   <br />
                   Endless possibilities.
                 </h2>
               </div>
 
-              <p className="max-w-md text-sm leading-6 text-gray-600 dark:text-white/40">
+              <p className="max-w-md text-[17px] leading-7 text-ink-secondary">
                 QuickCart isn't limited to supermarket products.
                 If someone can find it, buy it and legally deliver
                 it, we can explore it.
@@ -847,7 +813,7 @@ function App() {
               {categories.map((category) => (
                 <div
                   key={category}
-                  className="rounded-full border border-gray-300 dark:border-white/10 bg-white/80 dark:bg-white/[0.045] px-5 py-3 text-sm text-gray-700 dark:text-white/65 backdrop-blur transition hover:bg-gray-100 dark:hover:bg-white/10"
+                  className="rounded-full bg-surface px-5 py-2.5 text-[15px] text-ink ring-1 ring-hairline/60 transition hover:ring-accent"
                 >
                   {category}
                 </div>
@@ -857,24 +823,22 @@ function App() {
         </section>
 
         {/* Human feature */}
-        <section className="px-4 pb-28 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <div className="relative overflow-hidden rounded-[2.5rem] border border-gray-300 dark:border-white/10 bg-gradient-to-br from-gray-100 dark:from-white/[0.08] to-gray-50 dark:to-white/[0.025] p-8 sm:p-12 lg:p-16">
-              <div className="absolute right-0 top-0 h-80 w-80 rounded-full bg-orange-400/10 blur-[100px]" />
-
-              <div className="relative grid gap-12 lg:grid-cols-2 lg:items-center">
+        <section className="px-5 pb-28 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <div className="rounded-[2.5rem] bg-surface p-8 ring-1 ring-hairline/60 sm:p-12 lg:p-16">
+              <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
                 <div>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gray-200 dark:bg-white/10">
-                    <MessageCircle size={21} />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-soft text-accent">
+                    <MessageCircle size={22} />
                   </div>
 
-                  <h2 className="mt-7 text-4xl font-semibold tracking-tight sm:text-5xl text-gray-900 dark:text-white">
+                  <h2 className="mt-7 text-4xl font-semibold tracking-tight sm:text-5xl">
                     Shopping with a
                     <br />
                     human touch.
                   </h2>
 
-                  <p className="mt-5 max-w-xl text-base leading-7 text-gray-600 dark:text-white/45">
+                  <p className="mt-5 max-w-xl text-[17px] leading-7 text-ink-secondary">
                     Can't find the exact product? Your shopper
                     can send you a picture of an alternative and
                     ask before buying.
@@ -882,62 +846,56 @@ function App() {
 
                   <div className="mt-8 flex items-center gap-3">
                     <div className="flex -space-x-2">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-300 dark:border-[#111] bg-gray-200 dark:bg-white/20 text-xs text-gray-900 dark:text-white">
-                        A
-                      </div>
-
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-300 dark:border-[#111] bg-gray-200 dark:bg-white/15 text-xs text-gray-900 dark:text-white">
-                        M
-                      </div>
-
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-300 dark:border-[#111] bg-gray-200 dark:bg-white/10 text-xs text-gray-900 dark:text-white">
-                        K
-                      </div>
+                      {['A', 'M', 'K'].map((initial) => (
+                        <div
+                          key={initial}
+                          className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-surface bg-surface-muted text-xs font-medium text-ink"
+                        >
+                          {initial}
+                        </div>
+                      ))}
                     </div>
 
-                    <span className="text-sm text-gray-500 dark:text-white/40">
+                    <span className="text-[15px] text-ink-secondary">
                       Real people. Real shopping.
                     </span>
                   </div>
                 </div>
 
-                <div className="rounded-3xl border border-gray-300 dark:border-white/10 bg-gray-100 dark:bg-black/30 p-5 backdrop-blur-xl">
+                {/* Chat preview */}
+                <div className="rounded-3xl bg-surface-muted p-5 sm:p-6">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 dark:bg-white/10">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-white">
                       <Users size={18} />
                     </div>
 
                     <div>
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      <p className="text-[15px] font-semibold">
                         Your QuickCart shopper
                       </p>
 
-                      <p className="text-xs text-gray-500 dark:text-white/35">
+                      <p className="text-[13px] text-ink-tertiary">
                         Shopping now
                       </p>
                     </div>
 
-                    <div className="ml-auto h-2 w-2 rounded-full bg-emerald-400" />
+                    <div className="ml-auto h-2 w-2 rounded-full bg-success" />
                   </div>
 
-                  <div className="mt-6 rounded-2xl bg-gray-50 dark:bg-white/[0.05] p-4">
-                    <p className="text-xs text-gray-500 dark:text-white/35">
-                      SHOPPER
-                    </p>
-
-                    <p className="mt-2 text-sm leading-6 text-gray-700 dark:text-white/75">
+                  <div className="mt-6 max-w-[85%] rounded-[1.25rem] rounded-bl-md bg-surface px-4 py-3 shadow-sm">
+                    <p className="text-[15px] leading-6">
                       "They don't have the exact item.
                       I found another option. Should I get
                       this one?"
                     </p>
                   </div>
 
-                  <div className="mt-4 flex gap-3">
-                    <button className="flex-1 rounded-xl bg-white py-3 text-sm font-semibold text-black">
+                  <div className="mt-5 flex gap-3">
+                    <button className="flex-1 rounded-full bg-accent py-3 text-[15px] font-medium text-white transition hover:bg-accent-hover">
                       Approve
                     </button>
 
-                    <button className="flex-1 rounded-xl border border-gray-300 dark:border-white/10 bg-gray-100 dark:bg-white/5 py-3 text-sm font-medium text-gray-700 dark:text-white/70">
+                    <button className="flex-1 rounded-full bg-surface py-3 text-[15px] font-medium text-ink ring-1 ring-hairline/60">
                       Decline
                     </button>
                   </div>
@@ -948,24 +906,24 @@ function App() {
         </section>
 
         {/* CTA */}
-        <section className="px-4 pb-28 sm:px-6 lg:px-8">
+        <section className="bg-canvas-alt px-5 py-28 sm:px-6">
           <div className="mx-auto max-w-5xl text-center">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-black">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-ink text-canvas">
               <ShoppingBag size={24} />
             </div>
 
-            <h2 className="mt-7 text-4xl font-semibold tracking-tight sm:text-6xl text-gray-900 dark:text-white">
+            <h2 className="mt-7 text-4xl font-semibold tracking-tight sm:text-6xl">
               Be there from day one.
             </h2>
 
-            <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-gray-600 dark:text-white/45">
+            <p className="mx-auto mt-5 max-w-xl text-xl leading-8 text-ink-secondary">
               Join the early access list and be among the first
               people to experience QuickCart when we launch.
             </p>
 
             <button
               onClick={openSignup}
-              className="mt-8 rounded-full bg-white px-8 py-4 font-semibold text-black transition hover:scale-[1.02]"
+              className="mt-9 rounded-full bg-accent px-8 py-3.5 text-[17px] font-medium text-white transition hover:bg-accent-hover"
             >
               Join QuickCart
             </button>
@@ -974,10 +932,10 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 dark:border-white/5 px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-5 text-sm text-gray-500 dark:text-white/35 sm:flex-row sm:items-center">
-          <div className="flex items-center gap-2">
-            <ShoppingBag size={16} />
+      <footer className="border-t border-hairline/60 px-5 py-8 sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-col justify-between gap-3 text-[13px] text-ink-tertiary sm:flex-row sm:items-center">
+          <div className="flex items-center gap-2 text-ink-secondary">
+            <ShoppingBag size={15} />
             <span>QuickCart Zambia</span>
           </div>
 
@@ -986,21 +944,22 @@ function App() {
           </p>
 
           <p>
-            © {new Date().getFullYear()} QuickCart
+            © {new Date().getFullYear()} QuickCart. All rights reserved.
           </p>
         </div>
       </footer>
 
       {/* Signup Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-gray-900/80 dark:bg-black/80 p-4 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/40 p-4 backdrop-blur-md dark:bg-black/70">
           <div className="flex min-h-full items-center justify-center py-8">
-            <div className="relative w-full max-w-2xl overflow-hidden rounded-[2rem] border border-gray-300 dark:border-white/10 bg-white dark:bg-[#0c0c0c] shadow-2xl">
+            <div className="relative w-full max-w-2xl overflow-hidden rounded-[2rem] bg-surface shadow-2xl ring-1 ring-hairline/60">
               <button
                 onClick={closeSignup}
-                className="absolute right-5 top-5 z-10 rounded-xl border border-gray-300 dark:border-white/10 bg-gray-100 dark:bg-white/5 p-2 text-gray-600 dark:text-white/50 transition hover:bg-gray-200 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white"
+                className="absolute right-5 top-5 z-10 rounded-full bg-surface-muted p-2 text-ink-secondary transition hover:text-ink"
+                aria-label="Close"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
 
               {submitSuccess ? (
@@ -1015,18 +974,18 @@ function App() {
               ) : (
                 <form
                   onSubmit={submitSignup}
-                  className="p-6 sm:p-9"
+                  className="p-6 sm:p-10"
                 >
                   <div className="pr-10">
-                    <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-gray-200 dark:bg-white/10">
+                    <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-soft text-accent">
                       <Sparkles size={19} />
                     </div>
 
-                    <h2 className="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                    <h2 className="text-3xl font-semibold tracking-tight">
                       Join early access
                     </h2>
 
-                    <p className="mt-2 max-w-lg text-sm leading-6 text-gray-600 dark:text-white/40">
+                    <p className="mt-2 max-w-lg text-[15px] leading-6 text-ink-secondary">
                       Tell us a little about yourself so we
                       can understand where QuickCart is needed
                       most.
@@ -1034,7 +993,7 @@ function App() {
                   </div>
 
                   {submitError && (
-                    <div className="mt-6 rounded-2xl border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-200">
+                    <div className="mt-6 rounded-2xl bg-danger/10 px-4 py-3 text-[14px] text-danger">
                       {submitError}
                     </div>
                   )}
@@ -1123,9 +1082,9 @@ function App() {
                   </div>
 
                   <div className="mt-7">
-                    <label className="text-sm font-medium text-gray-700 dark:text-white/80">
+                    <span className="text-[14px] font-medium text-ink">
                       What would you use QuickCart for?
-                    </label>
+                    </span>
 
                     <div className="mt-3 flex flex-wrap gap-2">
                       {categories.map((category) => {
@@ -1143,10 +1102,11 @@ function App() {
                                 category
                               )
                             }
-                            className={`rounded-full border px-4 py-2 text-sm transition ${
+                            aria-pressed={selected}
+                            className={`rounded-full px-4 py-2 text-[14px] transition ${
                               selected
-                                ? 'border-gray-900 dark:border-white bg-gray-900 dark:bg-white text-white dark:text-black'
-                                : 'border-gray-300 dark:border-white/10 bg-gray-100 dark:bg-white/[0.035] text-gray-700 dark:text-white/55 hover:bg-gray-200 dark:hover:bg-white/10'
+                                ? 'bg-accent text-white'
+                                : 'bg-surface-muted text-ink hover:ring-1 hover:ring-hairline'
                             }`}
                           >
                             {category}
@@ -1184,13 +1144,13 @@ function App() {
                     />
                   </div>
 
-                  <div className="mt-7">
-                    <label className="text-sm font-medium text-gray-700 dark:text-white/80">
+                  <label className="mt-7 block">
+                    <span className="text-[14px] font-medium text-ink">
                       Anything else?
-                      <span className="ml-2 text-gray-400 dark:text-white/30">
+                      <span className="ml-2 font-normal text-ink-tertiary">
                         Optional
                       </span>
-                    </label>
+                    </span>
 
                     <textarea
                       value={form.comments}
@@ -1202,18 +1162,18 @@ function App() {
                       }
                       rows={3}
                       placeholder="Tell us what you would love QuickCart to help you with..."
-                      className="mt-3 w-full resize-none rounded-2xl border border-gray-300 dark:border-white/10 bg-gray-50 dark:bg-white/[0.035] px-4 py-3 text-sm text-gray-900 dark:text-white outline-none placeholder:text-gray-400 dark:placeholder:text-white/25 focus:border-gray-400 dark:focus:border-white/25"
+                      className={`mt-2 resize-none ${fieldClassName}`}
                     />
-                  </div>
+                  </label>
 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="mt-8 flex w-full items-center justify-center gap-3 rounded-2xl bg-white px-5 py-4 font-semibold text-black transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-accent px-5 py-3.5 text-[17px] font-medium text-white transition hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <>
-                        <span className="h-5 w-5 animate-spin rounded-full border-2 border-black/20 border-t-black" />
+                        <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                         Joining QuickCart...
                       </>
                     ) : (
@@ -1224,7 +1184,7 @@ function App() {
                     )}
                   </button>
 
-                  <p className="mt-4 text-center text-xs leading-5 text-white/25">
+                  <p className="mt-4 text-center text-[12px] leading-5 text-ink-tertiary">
                     By joining, you're expressing interest in
                     QuickCart. We won't sell your contact
                     information.
@@ -1239,6 +1199,9 @@ function App() {
   )
 }
 
+const fieldClassName =
+  'w-full rounded-xl border border-hairline bg-surface px-4 py-3 text-[15px] text-ink outline-none transition placeholder:text-ink-tertiary focus:border-accent focus:ring-4 focus:ring-accent-soft'
+
 function MiniFeature({
   icon,
   label,
@@ -1247,12 +1210,12 @@ function MiniFeature({
   label: string
 }) {
   return (
-    <div className="flex flex-col items-center gap-2 rounded-2xl border border-gray-200 dark:border-white/5 bg-gray-50 dark:bg-white/[0.03] py-4">
-      <div className="text-gray-600 dark:text-white/55">
+    <div className="flex flex-col items-center gap-2 rounded-2xl bg-surface-muted py-4">
+      <div className="text-accent">
         {icon}
       </div>
 
-      <span className="text-xs text-gray-500 dark:text-white/35">
+      <span className="text-[13px] font-medium text-ink-secondary">
         {label}
       </span>
     </div>
@@ -1269,16 +1232,16 @@ function ProblemCard({
   text: string
 }) {
   return (
-    <div className="group rounded-[1.75rem] border border-gray-300 dark:border-white/10 bg-gray-50 dark:bg-white/[0.035] p-7 transition duration-300 hover:-translate-y-1 hover:bg-gray-100 dark:hover:bg-white/[0.055]">
-      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gray-200 dark:bg-white/10 text-gray-700 dark:text-white/75">
+    <div className="rounded-[1.75rem] bg-surface p-8 ring-1 ring-hairline/60 transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.2)]">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-soft text-accent">
         {icon}
       </div>
 
-      <h3 className="mt-7 text-xl font-medium text-gray-900 dark:text-white">
+      <h3 className="mt-7 text-2xl font-semibold tracking-tight">
         {title}
       </h3>
 
-      <p className="mt-3 text-sm leading-6 text-gray-600 dark:text-white/40">
+      <p className="mt-3 text-[15px] leading-6 text-ink-secondary">
         {text}
       </p>
     </div>
@@ -1297,22 +1260,22 @@ function Step({
   text: string
 }) {
   return (
-    <div className="relative rounded-[1.75rem] border border-gray-300 dark:border-white/10 bg-gray-50 dark:bg-white/[0.035] p-7">
+    <div className="rounded-[1.75rem] bg-surface-muted p-7">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium tracking-[0.2em] text-gray-400 dark:text-white/25">
+        <span className="text-[13px] font-semibold tabular-nums text-ink-tertiary">
           {number}
         </span>
 
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-200 dark:bg-white/10 text-gray-600 dark:text-white/65">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-surface text-accent shadow-sm">
           {icon}
         </div>
       </div>
 
-      <h3 className="mt-10 text-xl font-medium text-gray-900 dark:text-white">
+      <h3 className="mt-10 text-xl font-semibold tracking-tight">
         {title}
       </h3>
 
-      <p className="mt-3 text-sm leading-6 text-gray-600 dark:text-white/40">
+      <p className="mt-2 text-[15px] leading-6 text-ink-secondary">
         {text}
       </p>
     </div>
@@ -1336,11 +1299,11 @@ function Input({
 }) {
   return (
     <label className="block">
-      <span className="text-sm font-medium text-gray-700 dark:text-white/80">
+      <span className="text-[14px] font-medium text-ink">
         {label}
 
         {required && (
-          <span className="ml-1 text-emerald-400">
+          <span className="ml-1 text-accent">
             *
           </span>
         )}
@@ -1354,7 +1317,7 @@ function Input({
         }
         placeholder={placeholder}
         required={required}
-        className="mt-2 w-full rounded-2xl border border-gray-300 dark:border-white/10 bg-gray-50 dark:bg-white/[0.035] px-4 py-3.5 text-sm text-gray-900 dark:text-white outline-none placeholder:text-gray-400 dark:placeholder:text-white/25 focus:border-gray-400 dark:focus:border-white/25"
+        className={`mt-2 ${fieldClassName}`}
       />
     </label>
   )
@@ -1378,7 +1341,7 @@ function Select({
 }) {
   return (
     <label className="block">
-      <span className="text-sm font-medium text-gray-700 dark:text-white/80">
+      <span className="text-[14px] font-medium text-ink">
         {label}
       </span>
 
@@ -1388,13 +1351,10 @@ function Select({
           onChange={(event) =>
             onChange(event.target.value)
           }
-          className="mt-2 w-full appearance-none rounded-2xl border border-gray-300 dark:border-white/10 bg-gray-50 dark:bg-white/[0.035] px-4 py-3.5 pr-10 text-sm text-gray-900 dark:text-white outline-none focus:border-gray-400 dark:focus:border-white/25"
+          className={`mt-2 appearance-none pr-10 ${fieldClassName}`}
         >
           {placeholder && (
-            <option
-              value=""
-              className="bg-white dark:bg-[#0c0c0c]"
-            >
+            <option value="">
               {placeholder}
             </option>
           )}
@@ -1403,7 +1363,6 @@ function Select({
             <option
               key={option.value}
               value={option.value}
-              className="bg-white dark:bg-[#0c0c0c]"
             >
               {option.label}
             </option>
@@ -1412,7 +1371,7 @@ function Select({
 
         <ChevronDown
           size={17}
-          className="pointer-events-none absolute right-4 top-[1.15rem] text-gray-400 dark:text-white/35"
+          className="pointer-events-none absolute right-4 top-[1.4rem] text-ink-tertiary"
         />
       </div>
     </label>
@@ -1430,35 +1389,35 @@ function SuccessState({
 }) {
   return (
     <div className="px-6 py-14 text-center sm:px-12 sm:py-20">
-      <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-400/10">
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-400 text-black">
+      <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-success/15">
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-success text-white">
           <Check size={28} strokeWidth={3} />
         </div>
       </div>
 
-      <p className="mt-7 text-xs font-medium uppercase tracking-[0.25em] text-emerald-300/70">
+      <p className="mt-7 text-[17px] font-semibold text-success">
         You're in
       </p>
 
-      <h2 className="mt-3 text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
+      <h2 className="mt-2 text-4xl font-semibold tracking-tight">
         Welcome to QuickCart. 🎉
       </h2>
 
-      <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-gray-600 dark:text-white/40">
+      <p className="mx-auto mt-4 max-w-md text-[15px] leading-6 text-ink-secondary">
         You're officially on the early access list. We'll
         let you know when QuickCart is ready for you.
       </p>
 
-      <div className="mx-auto mt-8 max-w-sm rounded-2xl border border-gray-300 dark:border-white/10 bg-gray-50 dark:bg-white/[0.035] p-5">
-        <p className="text-xs uppercase tracking-[0.2em] text-gray-400 dark:text-white/25">
+      <div className="mx-auto mt-8 max-w-sm rounded-2xl bg-surface-muted p-5">
+        <p className="text-[13px] font-medium text-ink-tertiary">
           Lusaka early users
         </p>
 
-        <p className="mt-2 text-3xl font-semibold text-gray-900 dark:text-white">
+        <p className="mt-1 text-4xl font-semibold tracking-tight">
           {signupCount}
         </p>
 
-        <p className="mt-1 text-xs text-gray-500 dark:text-white/30">
+        <p className="mt-1 text-[13px] text-ink-secondary">
           and growing
         </p>
       </div>
@@ -1466,14 +1425,14 @@ function SuccessState({
       <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
         <button
           onClick={onClose}
-          className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black"
+          className="rounded-full bg-accent px-7 py-3 text-[15px] font-medium text-white transition hover:bg-accent-hover"
         >
           Done
         </button>
 
         <button
           onClick={onJoinAnother}
-          className="rounded-full border border-gray-300 dark:border-white/10 bg-gray-100 dark:bg-white/5 px-6 py-3 text-sm text-gray-700 dark:text-white/70"
+          className="rounded-full px-6 py-3 text-[15px] text-accent transition hover:underline"
         >
           Join with another profile
         </button>
